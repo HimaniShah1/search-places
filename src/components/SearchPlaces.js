@@ -27,7 +27,7 @@ const SearchPlaces = () => {
     //Ref for the search input
     const searchInputRef = useRef(null);
 
-    //function to handle the Search login
+    //function to handle the Search 
     const handleSearch = useCallback(
         async (event) => {
             if (event) {
