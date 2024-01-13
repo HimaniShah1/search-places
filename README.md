@@ -1,3 +1,10 @@
+# Getting started
+To run the project go to the project directory are run
+npm install
+
+and after that start the development server
+npm start
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
