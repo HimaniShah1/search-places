@@ -1,8 +1,8 @@
 # Getting started
-To run the project go to the project directory are run
+To run the project go to the project directory and run
 npm install
 
-and after that start the development server
+and after that to start the development server
 npm start
 
 # Getting Started with Create React App
