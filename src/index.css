@@ -21,8 +21,7 @@ body {
   background-color: #f4f4f4;
 }
 
-div {
-
+.container {
   text-align: center;
   padding: 20px;
   background-color: #fff;
@@ -33,10 +32,12 @@ div {
 label {
   font-size: 16px;
   margin-right: 10px;
+  
 }
 
 input {
   padding: 8px;
+  margin: 10px;
   font-size: 16px;
 }
 
@@ -58,7 +59,7 @@ button {
 }
 
 button:disabled {
-  background-color: #ccc;
+  background-color: rgb(233, 236, 239);
   cursor: not-allowed;
 }
 

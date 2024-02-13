@@ -23,6 +23,7 @@ const SearchPlaces = () => {
     const [limit, setLimit] = useState(5);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
+    
 
     //Ref for the search input
     const searchInputRef = useRef(null);
@@ -34,39 +35,45 @@ const SearchPlaces = () => {
                 event.preventDefault();
             }
 
-            try {
-                setLoading(true);
+            if (searchTerm.length >= 3) {
+                try {
+                    setLoading(true);
 
-                const response = await fetch(
-                    `${ApiUrl}?namePrefix=${searchTerm}&limit=${limit}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'X-RapidAPI-Key': ApiKey,
-                            'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
-                        },
+                    const response = await fetch(
+                        `${ApiUrl}?namePrefix=${searchTerm}&limit=${limit}`,
+                        {
+                            method: 'GET',
+                            headers: {
+                                'X-RapidAPI-Key': ApiKey,
+                                'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+                            },
+                        }
+                    );
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch data');
                     }
-                );
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    const data = await response.json();
+                    setCities(data.data);
+                    setError(null);
+                } catch (error) {
+                    console.error('Error:', error);
+                    setCities([]);
+                    setError('Failed to fetch data');
+                } finally {
+                    setLoading(false);
                 }
 
-                const data = await response.json();
-                setCities(data.data);
-                setError(null);
-            } catch (error) {
-                console.error('Error:', error);
-                setCities([]);
-                setError('Failed to fetch data');
-            } finally {
-                setLoading(false);
+
+
             }
+
         },
         [searchTerm, limit]
     );
 
-    //Function to handle the change in result count
+    //Function to handle the change in api result count
     const handleLimitChange = (e) => {
         const newLimit = parseInt(e.target.value, 10);
         if (!isNaN(newLimit) && newLimit >= 1 && newLimit <= 10) {
@@ -76,7 +83,12 @@ const SearchPlaces = () => {
 
     //Effect to trigger the search on mount and when resultCount or limit changes
     useEffect(() => {
-        handleSearch();
+        let timerOut = setTimeout(() => {
+            handleSearch();
+        }, 800)
+
+        return () => clearTimeout(timerOut);
+
     }, [handleSearch, resultCount, limit]);
 
     //Effect to update the total pages when resultCount or cities change
@@ -117,7 +129,7 @@ const SearchPlaces = () => {
 
 
     return (
-        <div>
+        <div className='container'>
             <form onSubmit={handleSearch}>
                 <div className="search-container">
                     <label htmlFor="searchTerm">Enter city name: </label>
@@ -128,7 +140,6 @@ const SearchPlaces = () => {
                         onChange={handleInputChange}
                         ref={searchInputRef}
                         placeholder={searchTerm.trim() === '' ? 'Search places...' : ''}
-                        style={{ paddingRight: '60px' }}
                     />
                     <span className='search-shortcut'>Ctrl + /</span>
 
@@ -188,6 +199,7 @@ const SearchPlaces = () => {
                     )}
                 </tbody>
             </table>
+
 
             <Pagination
                 currentPage={(startIndex / resultCount) + 1}
