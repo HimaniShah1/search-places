@@ -23,7 +23,7 @@ const SearchPlaces = () => {
     const [limit, setLimit] = useState(5);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
-    
+
 
     //Ref for the search input
     const searchInputRef = useRef(null);
@@ -191,7 +191,7 @@ const SearchPlaces = () => {
                                 <td>{index + 1}</td>
                                 <td>{city.name}</td>
                                 <td>
-                                    <img src={getFlagUrl(city.countryCode)} alt={`${city.country} flag`} />
+                                    {/* <img src={getFlagUrl(city.countryCode)} alt={`${city.country} flag`} /> */}
                                     {city.country}
                                 </td>
                             </tr>
